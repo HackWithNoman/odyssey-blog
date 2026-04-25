@@ -1,136 +1,151 @@
-import { ArrowRight, CalendarDays, Mails } from "lucide-react";
-import Link from "next/link";
+import { ChevronRight } from "lucide-react";
+import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const blogPosts = [
   {
-    title: "Understanding React Server Components",
-    link: "#",
-    publishedDate: "2025-06-18",
-    author: "Jane Doe",
+    category: "Technology",
+    title: "A beginner's guide to blockchain for engineers",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.",
+    readTime: "5 min read",
     image:
       "https://cdn.pixabay.com/photo/2021/08/27/18/50/water-6579313_1280.jpg",
-    tags: ["React", "Server Components", "Performance"],
   },
   {
-    title: "10 Useful Shadcn UI Components You Should Know",
-    link: "#",
-    publishedDate: "2025-05-30",
-    author: "Akash Moradiya",
+    category: "Business",
+    title: "Understanding React Server Components",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.",
+    readTime: "8 min read",
     image:
       "https://cdn.pixabay.com/photo/2020/02/13/06/49/seascape-4844697_1280.jpg",
-    tags: ["Shadcn UI", "Components", "Design"],
   },
   {
-    title: "Building a Personal Blog with Next.js and Contentlayer",
-    link: "#",
-    publishedDate: "2025-05-15",
-    author: "Chris Moore",
+    category: "Finance",
+    title: "10 Useful Shadcn UI Components You Should Know",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.",
+    readTime: "6 min read",
     image:
       "https://cdn.pixabay.com/photo/2021/08/13/12/51/sea-6543041_1280.jpg",
-    tags: ["Next.js", "Contentlayer", "Blog"],
   },
   {
-    title: "The Complete Guide to TypeScript for Beginners",
-    link: "#",
-    publishedDate: "2025-04-25",
-    author: "Emily Johnson",
+    category: "Health",
+    title: "Building a Personal Blog with Next.js",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.",
+    readTime: "10 min read",
     image:
       "https://cdn.pixabay.com/photo/2017/06/22/20/24/dewdrops-2432391_1280.jpg",
-    tags: ["TypeScript", "Guide"],
   },
   {
-    title: "Optimizing Web Performance with Next.js",
-    link: "#",
-    publishedDate: "2025-04-10",
-    author: "Akash Moradiya",
+    category: "Lifestyle",
+    title: "The Complete Guide to TypeScript for Beginners",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.",
+    readTime: "12 min read",
     image:
       "https://cdn.pixabay.com/photo/2013/07/21/13/00/rose-165819_1280.jpg",
-    tags: ["Next.js", "Performance", "Optimization"],
   },
   {
-    title: "Deploying Full-Stack Apps on Vercel with Supabase",
-    link: "#",
-    publishedDate: "2025-03-28",
-    author: "John Smith",
+    category: "Politics",
+    title: "Optimizing Web Performance with Next.js",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.",
+    readTime: "7 min read",
     image:
       "https://cdn.pixabay.com/photo/2021/08/12/10/38/mountains-6540497_1280.jpg",
-    tags: ["Supabase", "Deployment", "Full-Stack"],
+  },
+  {
+    category: "Science",
+    title: "Deploying Full-Stack Apps on Vercel",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.",
+    readTime: "9 min read",
+    image:
+      "https://cdn.pixabay.com/photo/2016/03/27/18/54/technology-1283624_1280.jpg",
+  },
+  {
+    category: "Sports",
+    title: "Getting Started with Modern Web Development",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros.",
+    readTime: "11 min read",
+    image:
+      "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_1280.jpg",
   },
 ];
 
-const formatDate = (date: string) => {
-  return new Date(date).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
-};
-
-export default function Blog() {
+const Blog = () => {
   return (
-    <section className="mx-auto max-w-7xl px-6 py-16">
-      {/* Header */}
-      <div className="flex items-end justify-between gap-4">
-        <div>
-          <h2 className="text-balance font-medium text-2xl tracking-tight">
-            Welcome to our blog!
-          </h2>
-          <p className="mt-0.5 text-pretty text-lg text-muted-foreground tracking-normal">
-            Stay updated with the latest news and insights.
-          </p>
-        </div>
-        <Button
-          className="hidden gap-3 sm:inline-flex"
-          size="lg"
-          variant="secondary"
-        >
-          <Mails />
-          <span className="hidden lg:inline">Subscribe to our newsletter</span>
-          <span className="hidden md:inline lg:hidden">Subscribe</span>
-        </Button>
+    <div className="mx-auto max-w-(--breakpoint-xl) px-6 py-16 xl:px-0 mt-24">
+      <div className="flex items-end justify-between">
+        <h2 className="font-medium text-[1.5rem] tracking-tight">
+          Read Posts
+        </h2>
+        <Select defaultValue="recommended">
+          <SelectTrigger className="w-45">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="recommended">Recommended</SelectItem>
+            <SelectItem value="latest">Latest</SelectItem>
+            <SelectItem value="popular">Popular</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
-      <Separator className="mt-7 mb-10" />
-
-      <div className="grid grid-cols-1 gap-x-8 gap-y-14 md:grid-cols-2 lg:grid-cols-3">
-        {blogPosts.map((post, index) => (
-          <Link href={post.link} key={`${post.link}-${index}`}>
-            <div>
-              <img
-                alt={post.title}
-                className="aspect-[14/9] rounded-lg bg-muted"
-                src={post.image}
-              />
-              <div className="px-1">
-                <div className="mt-4 flex flex-wrap items-center gap-2">
-                  {post.tags.map((tag) => (
-                    <Badge key={tag} variant="secondary">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-                <h3 className="mt-3 font-medium text-xl">{post.title}</h3>
-                <div className="mt-4 flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-1.5 text-muted-foreground text-sm">
-                    <CalendarDays className="size-4" />{" "}
-                    {formatDate(post.publishedDate)}
-                  </div>
-                  <Button className="-me-2" variant="ghost">
-                    Read Article <ArrowRight />
-                  </Button>
-                </div>
+      <div className="mt-4 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+        {blogPosts.map((post) => (
+          <Card
+            className="gap-0 overflow-hidden rounded-lg py-0 shadow-none"
+            key={post.title}
+          >
+            <CardHeader className="relative p-0">
+              <div className="relative aspect-video w-full border-b">
+                <Image
+                  alt={post.title}
+                  className="object-cover"
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  src={post.image}
+                />
               </div>
-            </div>
-          </Link>
+            </CardHeader>
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <Badge className="bg-primary/5 text-primary shadow-none hover:bg-primary/5">
+                  {post.category}
+                </Badge>
+                <span className="font-medium text-muted-foreground text-xs">
+                  {post.readTime}
+                </span>
+              </div>
+
+              <h3 className="mt-4 font-medium text-[1.4rem] text-xl tracking-[-0.02em]">
+                {post.title}
+              </h3>
+              <p className="mt-2 text-muted-foreground">{post.description}</p>
+
+              <Button className="mt-6 shadow-none">
+                Read more <ChevronRight />
+              </Button>
+            </CardContent>
+          </Card>
         ))}
       </div>
-
-      <Button className="mx-auto mt-16 flex" size="lg" variant="secondary">
-        Load more articles
-      </Button>
-    </section>
+    </div>
   );
-}
+};
+
+export default Blog;
