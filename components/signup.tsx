@@ -16,23 +16,45 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Logo } from "@/components/logo";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { signUp } from "@/src/lib/auth-client";
 
 const formSchema = z.object({
+  name: z.string().min(1, "Name is required"),
   email: z.string().email(),
   password: z.string().min(8, "Password must be at least 8 characters long"),
 });
 
 const SignUp = () => {
+  const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
+
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
+      name: "",
       email: "",
       password: "",
     },
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data);
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    // No need for e.preventDefault() - handleSubmit does this for you
+    setError(null);
+
+    // Use 'data' directly - it's already validated by Zod
+    const res = await signUp.email({
+      name: data.name,
+      email: data.email,
+      password: data.password,
+    });
+
+    if (res.error) {
+      setError(res.error.message || "Something went wrong.");
+    } else {
+      router.push("/dashboard");
+    }
   };
 
   return (
@@ -108,6 +130,24 @@ const SignUp = () => {
               className="w-full space-y-4"
               onSubmit={form.handleSubmit(onSubmit)}
             >
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input
+                        className="w-full"
+                        placeholder="Name"
+                        type="text"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="email"
