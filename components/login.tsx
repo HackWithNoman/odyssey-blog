@@ -16,6 +16,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Logo } from "@/components/logo";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { signIn } from "@/src/lib/auth-client";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -23,6 +26,9 @@ const formSchema = z.object({
 });
 
 const Login = () => {
+  const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
+
   const form = useForm<z.infer<typeof formSchema>>({
     defaultValues: {
       email: "",
@@ -31,8 +37,19 @@ const Login = () => {
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data);
+  const { isSubmitting } = form.formState;
+
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    setError(null);
+    const res = await signIn.email({
+      email: data.email,
+      password: data.password,
+    });
+    if (res.error) {
+      setError(res.error.message || "Something went wrong.");
+    } else {
+      router.push("/dashboard");
+    }
   };
 
   return (
@@ -101,6 +118,12 @@ const Login = () => {
             <Separator />
           </div>
 
+          {error && (
+            <div className="bg-destructive/15 text-destructive text-sm p-3 rounded-md mb-4">
+              {error}
+            </div>
+          )}
+
           <Form {...form}>
             <form
               className="w-full space-y-6"
@@ -142,8 +165,8 @@ const Login = () => {
                   </FormItem>
                 )}
               />
-              <Button className="w-full" type="submit">
-                Continue with Email
+              <Button className="w-full" type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "Logging in..." : "Continue with Email"}
               </Button>
             </form>
           </Form>
