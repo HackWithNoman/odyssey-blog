@@ -1,5 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import { LayoutDashboard, Plus, FileText, LogOut } from "lucide-react";
+import { signOut } from "@/src/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 const navItems = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
@@ -8,6 +12,7 @@ const navItems = [
 ];
 
 function dashboardLayout({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
   return (
     <div className="flex min-h-screen">
       <aside className="w-64 border-r bg-card fixed h-full">
@@ -27,7 +32,13 @@ function dashboardLayout({ children }: { children: React.ReactNode }) {
           ))}
         </nav>
         <div className="absolute bottom-6 left-3 right-3">
-          <button className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground w-full">
+          <button
+            className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground w-full"
+            onClick={async () => {
+              await signOut();
+              router.push("/");
+            }}
+          >
             <LogOut className="h-4 w-4" />
             Logout
           </button>
