@@ -1,5 +1,5 @@
 import { getPublishedPosts } from "@/src/lib/posts";
-import Blog from "@/components/blog";
+import BlogGrid from "@/components/blog-grid";
 import CTA from "@/components/home/cta";
 import Features from "@/components/home/features";
 import Hero from "@/components/home/hero";
@@ -11,7 +11,7 @@ export default async function Home() {
   return (
     <main>
       <Hero />
-      <Blog posts={posts} />
+      <BlogGrid posts={posts} />
       <Features />
       <Testimonials />
       <CTA />
