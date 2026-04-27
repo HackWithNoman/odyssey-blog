@@ -110,19 +110,9 @@ const SignUp = () => {
 
         <div className="relative isolate flex flex-col items-center">
           <Logo className="h-9 w-9" />
-          <p className="mt-4 font-medium text-xl">
-            Sign up for Shadcn UI Blocks
-          </p>
-
-          <Button className="mt-8 w-full gap-3">
-            <GoogleLogo />
-            Continue with Google
-          </Button>
+          <p className="mt-4 font-medium text-xl">Sign up for Blogium</p>
 
           <div className="my-7 flex w-full items-center justify-center overflow-hidden">
-            <Separator />
-            <span className="px-2 text-sm">OR</span>
-            <Separator />
           </div>
 
           <Form {...form}>
