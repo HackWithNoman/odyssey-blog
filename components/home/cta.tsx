@@ -6,6 +6,7 @@ import {
   Zap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const CTA = () => {
   return (
@@ -70,9 +71,9 @@ const CTA = () => {
 
         <div className="relative isolate">
           <h2 className="text-balance font-medium font-satoshi text-4xl text-black/85 tracking-tight md:leading-tight lg:text-[3.25rem]">
-            Ready to Build Faster?
+            A platform for writers, by writers
           </h2>
-          <p className="mt-4 text-balance text-black/80 text-xl/normal md:mt-2.5">
+          <p className="mt-4 text-balance text-black/80 text-xl/normal md:mt-2.5 w-xl">
             Join thousands of developers using our premium component library to
             ship beautiful UIs in minutes, not hours.
           </p>
@@ -81,14 +82,8 @@ const CTA = () => {
               className="bg-neutral-950 text-white hover:bg-neutral-950/90"
               size="lg"
             >
-              Get Started <ArrowUpRight />
-            </Button>
-            <Button
-              className="border-white/60 bg-white/50 text-black hover:bg-white/80 dark:border-white/60 dark:bg-white/50 dark:text-black dark:hover:bg-white/80"
-              size="lg"
-              variant="outline"
-            >
-              View Components
+              <Link href="/register">Get Started</Link>
+              <ArrowUpRight />
             </Button>
           </div>
         </div>
