@@ -1,5 +1,8 @@
+"use client";
+
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -11,9 +14,28 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import blogPosts from "@/src/blogData";
+interface Post {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  content: string;
+  coverImage: string | null;
+  category: string | null;
+  status: string;
+  createdAt: Date;
+  author: {
+    id: string;
+    name: string;
+    image: string | null;
+  };
+}
 
-const Blog = () => {
+interface BlogProps {
+  posts: Post[];
+}
+
+const Blog = ({ posts }: BlogProps) => {
   return (
     <div className="mx-auto max-w-(--breakpoint-xl) px-6 py-16 xl:px-0 mt-24">
       <div className="flex items-end justify-between">
@@ -30,45 +52,64 @@ const Blog = () => {
         </Select>
       </div>
 
-      <div className="mt-4 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-        {blogPosts.map((post) => (
-          <Card
-            className="gap-0 overflow-hidden rounded-lg py-0 shadow-none"
-            key={post.title}
-          >
-            <CardHeader className="relative p-0">
-              <div className="relative aspect-video w-full border-b">
-                <Image
-                  alt={post.title}
-                  className="object-cover"
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  src={post.image}
-                />
-              </div>
-            </CardHeader>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <Badge className="bg-primary/5 text-primary shadow-none hover:bg-primary/5">
-                  {post.category}
-                </Badge>
-                <span className="font-medium text-muted-foreground text-xs">
-                  {post.readTime}
-                </span>
-              </div>
+      {posts.length === 0 ? (
+        <p className="text-muted-foreground text-center py-16">
+          No posts yet. Check back later!
+        </p>
+      ) : (
+        <div className="mt-4 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post) => (
+            <Card
+              className="gap-0 overflow-hidden rounded-lg py-0 shadow-none"
+              key={post.id}
+            >
+              <CardHeader className="relative p-0">
+                <Link
+                  href={`/blog/${post.slug}`}
+                  className="relative aspect-video w-full border-b block"
+                >
+                  <Image
+                    alt={post.title}
+                    className="object-cover hover:opacity-90 transition-opacity"
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    src={post.coverImage || "/placeholder.jpg"}
+                  />
+                </Link>
+              </CardHeader>
+              <CardContent className="p-4">
+                <div className="flex items-center gap-3">
+                  <Badge className="bg-primary/5 text-primary shadow-none hover:bg-primary/5">
+                    {post.category || "General"}
+                  </Badge>
+                  <span className="font-medium text-muted-foreground text-xs">
+                    {new Date(post.createdAt).toLocaleDateString()}
+                  </span>
+                </div>
 
-              <h3 className="mt-4 font-medium text-[1.4rem] text-xl tracking-[-0.02em]">
-                {post.title}
-              </h3>
-              <p className="mt-2 text-muted-foreground">{post.description}</p>
+                <Link href={`/blog/${post.slug}`}>
+                  <h3 className="mt-4 font-medium text-[1.4rem] text-xl tracking-[-0.02em] hover:text-primary transition-colors">
+                    {post.title}
+                  </h3>
+                </Link>
+                <p className="mt-2 text-muted-foreground line-clamp-2">
+                  {post.excerpt}
+                </p>
 
-              <Button className="mt-6 shadow-none">
-                Read more <ChevronRight />
-              </Button>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+                <Button
+                  asChild
+                  className="mt-6 shadow-none"
+                  variant="link"
+                >
+                  <Link href={`/blog/${post.slug}`}>
+                    Read more <ChevronRight className="h-4 w-4" />
+                  </Link>
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

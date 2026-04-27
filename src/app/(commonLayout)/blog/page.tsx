@@ -1,9 +1,8 @@
+import { getPublishedPosts } from "@/src/lib/posts";
 import Blog from "@/components/blog";
 
-function Page() {
-    return (
-        <Blog />
-    );
-}
+export default async function Page() {
+  const posts = await getPublishedPosts();
 
-export default Page;
+  return <Blog posts={posts} />;
+}
