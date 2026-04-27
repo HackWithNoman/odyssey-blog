@@ -1,4 +1,4 @@
-import Blog from "@/components/home/blog";
+import Blog from "@/components/blog";
 import CTA from "@/components/home/cta";
 import Features from "@/components/home/features";
 import Hero from "@/components/home/hero";
