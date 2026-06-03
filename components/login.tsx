@@ -14,7 +14,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
 import { Logo } from "@/components/logo";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -107,8 +106,7 @@ const Login = () => {
           <Logo className="h-9 w-9" />
           <p className="mt-4 font-medium text-xl">Log in to Blogium</p>
 
-          <div className="my-7 flex w-full items-center justify-center overflow-hidden">
-          </div>
+          <div className="my-7 flex w-full items-center justify-center overflow-hidden"></div>
 
           {error && (
             <div className="bg-destructive/15 text-destructive text-sm p-3 rounded-md mb-4">
